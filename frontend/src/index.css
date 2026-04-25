@@ -1,0 +1,19 @@
+@import "tailwindcss";
+@plugin "daisyui";
+
+@plugin "daisyui" {
+  themes: light, dark, cupcake, bumblebee, emerald, corporate, synthwave, retro,
+    cyberpunk, valentine, halloween, garden, forest, aqua, lofi, pastel, fantasy,
+    wireframe, black, luxury, dracula, cmyk, autumn, business, acid, lemonade,
+    night, coffee, winter, dim, nord, sunset;
+}
+
+.page-shell {
+  padding-inline: 2.5rem;
+}
+
+@media (min-width: 1024px) {
+  .page-shell {
+    padding-inline: 5rem;
+  }
+}

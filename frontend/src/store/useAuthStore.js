@@ -20,7 +20,7 @@ export const useAuthStore = create((set, get) => ({
 		try {
 			const res = await axiosInstance.get('auth/check');
 			set({ authUser: res.data });
-			get().connectSocket();
+			get().connectSocket(res.data);
 		} catch (error) {
 			console.log('Error in checkAuth zustand fxn', error);
 			set({ authUser: null });
@@ -35,7 +35,7 @@ export const useAuthStore = create((set, get) => ({
 			const res = await axiosInstance.post('auth/signup', data);
 			set({ authUser: res.data });
 			toast.success('Account created successfully');
-			get().connectSocket();
+			get().connectSocket(res.data);
 		} catch (error) {
 			console.log('Error in signup zustand fxn', error);
 			toast.error(error.response?.data?.message || 'Signup failed');
@@ -50,7 +50,7 @@ export const useAuthStore = create((set, get) => ({
 			const res = await axiosInstance.post('auth/login', data);
 			set({ authUser: res.data });
 			toast.success('Logged in successfully');
-			get().connectSocket();
+			get().connectSocket(res.data);
 		} catch (error) {
 			console.log('Error in login zustand fxn', error);
 			toast.error(error.response?.data?.message || 'Login failed');
@@ -88,10 +88,11 @@ export const useAuthStore = create((set, get) => ({
 		}
 	},
 
-	connectSocket: () => {
-    const { authUser, socket } = get();
+	connectSocket: (userArg) => {
+    const { socket } = get();
+		const currentUser = userArg || get().authUser;
 
-    if (!authUser || socket?.connected) return;
+    if (!currentUser || socket?.connected) return;
 
     if (socket) {
       socket.disconnect();
@@ -100,14 +101,14 @@ export const useAuthStore = create((set, get) => ({
     const newSocket = io(BASE_URL, {
       autoConnect: true,
       withCredentials: true,
-      transports: ['websocket', 'polling'],
+      transports: ['polling'],
       query: {
-        userId: authUser._id,
+        userId: currentUser._id,
       },
     });
 
     newSocket.on('connect', () => {
-      console.log("A user connected", authUser._id);
+      console.log("A user connected", currentUser._id);
     });
 
     newSocket.on('connect_error', (error) => {
@@ -126,7 +127,7 @@ export const useAuthStore = create((set, get) => ({
   },
 	disconnectSocket: () => {
     const { socket } = get();
-    if (socket?.connected) socket.disconnect();
-    set({ socket: [] });
+    if (socket) socket.disconnect();
+    set({ socket: null });
   }
 }));

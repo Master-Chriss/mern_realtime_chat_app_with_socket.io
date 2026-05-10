@@ -99,16 +99,16 @@ export const useAuthStore = create((set, get) => ({
     }
 
     const newSocket = io(BASE_URL, {
-      autoConnect: true,
+      autoConnect: false,
       withCredentials: true,
-      transports: ['polling'],
+      transports: ['websocket', 'polling'],
       query: {
-        userId: currentUser._id,
+        userId: currentUser?._id,
       },
     });
 
     newSocket.on('connect', () => {
-      console.log("A user connected", currentUser._id);
+      console.log("A user connected", currentUser?._id);
     });
 
     newSocket.on('connect_error', (error) => {

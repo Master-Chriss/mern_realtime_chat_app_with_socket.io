@@ -6,6 +6,7 @@ import MessageInput from './MessageInput';
 import MessageSkeleton from './skeletons/MessageSkeleton';
 import { useAuthStore } from '../store/useAuthStore';
 import { formatMessageTime } from '../lib/utils.js';
+import { MessageSquareOff } from 'lucide-react';
 
 const ChatContainer = () => {
 	const {
@@ -51,7 +52,7 @@ const ChatContainer = () => {
 				{messages.length === 0 ? (
 					<div className="flex flex-col items-center justify-center h-full">
 						<div className="text-center space-y-3">
-							<div className="text-4xl">👋</div>
+							<MessageSquareOff className="w-16 h-16 text-base-content/30 mx-auto" />
 							<h3 className="text-xl font-semibold">No messages yet</h3>
 							<p className="text-base-content/60">Start a conversation with {selectedUser.fullName}</p>
 						</div>

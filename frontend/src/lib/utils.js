@@ -15,7 +15,7 @@ export const formatMessageTime = (time) => {
   });
 
   if (messageDay.getTime() === todayDay.getTime()) {
-    return timeStr;
+    return `Today ${timeStr}`;}
   } else if (messageDay.getTime() === yesterdayDay.getTime()) {
     return `Yesterday ${timeStr}`;
   } else {

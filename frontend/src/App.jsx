@@ -27,7 +27,7 @@ const App = () => {
   }, [theme]);
 
 
-  if(isCheckingAuth && !authUser) return (
+  if(isCheckingAuth) return (
   <div className='flex h-screen items-center justify-center bg-base-100 text-base-content'>
     <Loader className='size-10 animate-spin' />
   </div>

@@ -123,6 +123,7 @@ export const useAuthStore = create((set, get) => ({
       set({ onlineUsers: userIds });
     });
 
+    newSocket.connect();
     set({ socket: newSocket });
   },
 	disconnectSocket: () => {

@@ -53,20 +53,28 @@ export const login = async (req, res) => {
   const {email, password} = req.body;
 
   try {
+    console.log('Login attempt for email:', email);
+    
     const user = await User.findOne({email});
+    console.log('User found:', user ? 'Yes' : 'No');
 
     if(!user) {
+      console.log('User not found with email:', email);
       return res.status(400).json({message: "Invalid Credentials"});
     }
 
+    console.log('Stored password hash:', user.password.substring(0, 20) + '...');
     const isPasswordCorrect = await bcrypt.compare(password, user.password);
+    console.log('Password comparison result:', isPasswordCorrect);
 
     if(!isPasswordCorrect) {
+      console.log('Password mismatch for user:', user.email);
       return res.status(400).json({message: "Invalid Credentials"});
     }
 
     // Generate the token
     generateToken(user._id, res);
+    console.log('Login successful for:', user.email);
 
     return res.status(200).json({
       _id: user._id,
@@ -75,8 +83,8 @@ export const login = async (req, res) => {
       profilePic: user.profilePic
     });
   } catch (error) {
-    console.log("Error in login controller", error.messsage);
-    return res.status(500).json({messsage: "Internal server error"});
+    console.log("Error in login controller", error.message);
+    return res.status(500).json({message: "Internal server error"});
   }
 };
 

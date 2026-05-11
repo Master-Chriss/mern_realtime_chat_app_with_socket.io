@@ -48,7 +48,16 @@ const ChatContainer = () => {
 			<ChatHeader />
 
 			<div className="flex-1 overflow-y-auto p-4 space-y-4">
-				{messages.map((message) => (
+				{messages.length === 0 ? (
+					<div className="flex flex-col items-center justify-center h-full">
+						<div className="text-center space-y-3">
+							<div className="text-4xl">👋</div>
+							<h3 className="text-xl font-semibold">No messages yet</h3>
+							<p className="text-base-content/60">Start a conversation with {selectedUser.fullName}</p>
+						</div>
+					</div>
+				) : (
+					messages.map((message) => (
 					<div
 						key={message._id}
 						className={`chat ${message.senderId === authUser._id ? 'chat-end' : 'chat-start'}`}
@@ -91,7 +100,8 @@ const ChatContainer = () => {
 							{message.text && <p>{message.text}</p>}
 						</div>
 					</div>
-				))}
+					))
+				)}
 			</div>
 
 			<MessageInput />

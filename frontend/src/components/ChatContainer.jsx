@@ -52,7 +52,7 @@ const ChatContainer = () => {
 				{messages.length === 0 ? (
 					<div className="flex flex-col items-center justify-center h-full">
 						<div className="text-center space-y-3">
-							<MessageSquareOff className="w-16 h-16 text-base-content/30 mx-auto" />
+							<MessageSquareOff className="w-16 h-16 text-primary/40 mx-auto" />
 							<h3 className="text-xl font-semibold">No messages yet</h3>
 							<p className="text-base-content/60">Start a conversation with {selectedUser.fullName}</p>
 						</div>
